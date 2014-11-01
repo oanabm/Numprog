@@ -301,7 +301,7 @@ public class Gleitpunktzahl {
 			mantisse >>= 1;
 		}
 		
-		exponent += 1;//mantisse um eins nach rechts verschoben heißt exponent muss erhoeht werden
+		exponent += 1;//mantisse um eins nach rechts verschoben heiÃŸt exponent muss erhoeht werden
 	}
 	
 	/**
@@ -314,6 +314,25 @@ public class Gleitpunktzahl {
 		/*
 		 * TODO: hier ist die Operation denormalisiere zu implementieren.
 		 */
+		 
+		 int anzPos = 0;
+		
+		if(a.compareAbsTo(b)>=1){
+			anzPos = a.exponent - b.exponent;
+			a.exponent = b.exponent;
+			a.mantisse <<= anzPos;
+		}
+		
+		else if (a.compareAbsTo(b)<=-1){
+			anzPos = b.exponent - a.exponent;
+			b.exponent = a.exponent;
+			b.mantisse <<= anzPos;
+		}
+		else{
+			return;
+		}
+		 
+		 
 	}
 	
 	/**
@@ -328,7 +347,14 @@ public class Gleitpunktzahl {
 		 * Achten Sie auf Sonderfaelle!
 		 */
 		
-		return new Gleitpunktzahl();
+		denormalisiere(this, r);
+		
+		Gleitpunktzahl result = new Gleitpunktzahl();
+		result.mantisse = this.mantisse + r.mantisse;
+		result.exponent = r.exponent;
+		result.normalisiere();
+		
+		return result;
 	}
 	
 	/**
@@ -343,7 +369,14 @@ public class Gleitpunktzahl {
 		 * Achten Sie auf Sonderfaelle!
 		 */
 		
-		return new Gleitpunktzahl();
+		denormalisiere(this, r);
+		
+		Gleitpunktzahl result = new Gleitpunktzahl();
+		result.mantisse = this.mantisse - r.mantisse;
+		result.exponent = r.exponent;
+		result.normalisiere();
+		
+		return result;
 	}
 	
 	/**
