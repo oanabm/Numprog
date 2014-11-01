@@ -315,7 +315,7 @@ public class Gleitpunktzahl {
 		 * TODO: hier ist die Operation denormalisiere zu implementieren.
 		 */
 		 
-		 int anzPos = 0;
+		int anzPos = 0;
 		
 		if(a.compareAbsTo(b)>=1){
 			anzPos = a.exponent - b.exponent;
