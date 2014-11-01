@@ -292,16 +292,49 @@ public class Gleitpunktzahl {
 		if (isNull() || isInfinite() || isNaN())
 			return;//nichts zu tun
 			
-		if ((mantisse & 1) == 1) {
-			//letzte Stelle ist 1 -> Aufrunden
-			mantisse >>= 1;//um eine Stelle verschieben
-			mantisse += 1;//uebernimmt aufrunden
-		} else {
-			//letzte Stelle ist 0 -> einfach verschieben
-			mantisse >>= 1;
+		//Zahl ist in Reichweite. Mantisse ueberpruefen
+		int sollIstDiff = 32 - Integer.numberOfLeadingZeros(mantisse)
+			- Gleitpunktzahl.sizeMantisse;
+		//mantisse ist hoechstens um eine stelle zu lang
+		if (sollIstDiff == 1) {
+			//muss letzte Stelle runden
+			if ((mantisse & 1) == 1) {
+				//letzte Stelle ist 1 -> Aufrunden
+				mantisse >>= 1;//um eine Stelle verschieben
+				if (mantisse == Math.pow(2, Gleitpunktzahl.sizeMantisse) - 1) {
+					//alle stellen sind 1. exponent erhoehen
+					mantisse = (int) Math.pow(2,
+						Gleitpunktzahl.sizeMantisse - 1);
+					exponent++;
+				} else {
+					mantisse += 1;//uebernimmt aufrunden
+				}
+			} else {
+				//letzte Stelle ist 0 -> einfach verschieben
+				mantisse >>= 1;
+			}
+			exponent++;
 		}
 		
-		exponent += 1;//mantisse um eins nach rechts verschoben heiﬂt exponent muss erhoeht werden
+		//noch ueberpruefen ob exponent in Reichweite. 
+		if (exponent < -1) {
+			//Zahl ist kleiner als die haelfte des kleinsten darstellbaren
+			setNull();//auf null setzen
+			return;
+		} else if (exponent == -1) {
+			//Zahl ist kleiner als darstellbar, aber naeher am kleinsten darstellbaren
+			//als an null
+			exponent = 0;
+			mantisse = (int) Math
+				.pow(2, Gleitpunktzahl.sizeMantisse - 1);
+			return;
+		} else if (exponent > Math.pow(2, Gleitpunktzahl.sizeExponent)) {
+			//exponent ist zu groﬂ
+			exponent = (int) Math.pow(2, Gleitpunktzahl.sizeExponent);
+			mantisse = (int) Math
+				.pow(2, Gleitpunktzahl.sizeMantisse + 1) - 1;//alle mantissen bits auf 1 sowie fuehrende 1
+			return;
+		}
 	}
 	
 	/**
@@ -371,5 +404,21 @@ public class Gleitpunktzahl {
 		vorzeichen = false;
 		exponent = Gleitpunktzahl.maxExponent;
 		mantisse = 1;
+	}
+	
+	@Override
+	public boolean equals(Object arg0) {
+		if (arg0 instanceof Gleitpunktzahl) {
+			Gleitpunktzahl z2 = (Gleitpunktzahl) arg0;
+			if (isInfinite())
+				return z2.isInfinite();
+			if (isNull())
+				return z2.isNull();
+			if (isNaN())
+				return z2.isNaN();
+			return z2.mantisse == mantisse && z2.exponent == exponent
+				&& z2.vorzeichen == vorzeichen;
+		}
+		return super.equals(arg0);
 	}
 }
