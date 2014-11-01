@@ -331,8 +331,7 @@ public class Gleitpunktzahl {
 		else{
 			return;
 		}
-		 
-		 
+	
 	}
 	
 	/**
