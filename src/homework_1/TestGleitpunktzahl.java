@@ -23,7 +23,7 @@ public class TestGleitpunktzahl {
 	@Test
 	public void testRoundedValue() {
 		testGleitPunktZahl("3.0625", 3.0625, 0b1100, 1, false);
-		testGleitPunktZahl("3.875", 3.875, 0b1000, 2, false);
+		testGleitPunktZahl("1.9375", 1.9375, 0b1000, 1, false);
 	}
 	
 	@Test
@@ -46,6 +46,18 @@ public class TestGleitpunktzahl {
 		Gleitpunktzahl.denormalisiere(z1, z2);
 		testGleitpunktzahl("3.5 deno", z2, z1.mantisse << 1,
 			z1.exponent - 1, z1.vorzeichen);
+	}
+	
+	@Test
+	public void testAdd() {
+		Gleitpunktzahl z1 = new Gleitpunktzahl(0.5);
+		Gleitpunktzahl z2 = new Gleitpunktzahl(2.5);
+		
+		Gleitpunktzahl z4 = z1.add(z2);
+		
+		Gleitpunktzahl z3 = new Gleitpunktzahl(3.0);
+		
+		Assert.assertEquals(z3, z4);
 	}
 	
 	private Gleitpunktzahl testGleitPunktZahl(String name,

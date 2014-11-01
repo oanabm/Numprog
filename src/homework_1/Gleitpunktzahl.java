@@ -295,14 +295,15 @@ public class Gleitpunktzahl {
 		//Zahl ist in Reichweite. Mantisse ueberpruefen
 		int sollIstDiff = 32 - Integer.numberOfLeadingZeros(mantisse)
 			- Gleitpunktzahl.sizeMantisse;
-		//mantisse ist hoechstens um eine stelle zu lang
-		if (sollIstDiff == 1) {
+		
+		if (sollIstDiff > 0) {
+			mantisse >>= sollIstDiff - 1;
 			//muss letzte Stelle runden
 			if ((mantisse & 1) == 1) {
 				//letzte Stelle ist 1 -> Aufrunden
 				mantisse >>= 1;//um eine Stelle verschieben
 				if (mantisse == Math.pow(2, Gleitpunktzahl.sizeMantisse) - 1) {
-					//alle stellen sind 1. exponent erhoehen
+					//alle stellen sind 1. Exponent erhoehen
 					mantisse = (int) Math.pow(2,
 						Gleitpunktzahl.sizeMantisse - 1);
 					exponent++;
@@ -313,7 +314,7 @@ public class Gleitpunktzahl {
 				//letzte Stelle ist 0 -> einfach verschieben
 				mantisse >>= 1;
 			}
-			exponent++;
+			exponent += sollIstDiff;
 		}
 		
 		//noch ueberpruefen ob exponent in Reichweite. 
@@ -328,11 +329,10 @@ public class Gleitpunktzahl {
 			mantisse = (int) Math
 				.pow(2, Gleitpunktzahl.sizeMantisse - 1);
 			return;
-		} else if (exponent > Math.pow(2, Gleitpunktzahl.sizeExponent)) {
+		} else if (exponent >= Gleitpunktzahl.maxExponent) {
 			//exponent ist zu groﬂ
-			exponent = (int) Math.pow(2, Gleitpunktzahl.sizeExponent);
-			mantisse = (int) Math
-				.pow(2, Gleitpunktzahl.sizeMantisse + 1) - 1;//alle mantissen bits auf 1 sowie fuehrende 1
+			exponent = Gleitpunktzahl.maxExponent - 1;
+			mantisse = (int) Math.pow(2, Gleitpunktzahl.sizeMantisse) - 1;//alle mantissen bits auf 1 sowie fuehrende 1
 			return;
 		}
 	}
