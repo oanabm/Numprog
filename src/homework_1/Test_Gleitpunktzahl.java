@@ -6,7 +6,31 @@ public class Test_Gleitpunktzahl {
 	 */
 	
 	public static void main(String[] argv) {
-		Test_Gleitpunktzahl.test_Gleitpunktzahl();
+		test_Gleitpunktzahl();
+		Gleitpunktzahl g = new Gleitpunktzahl(3.25);
+		Gleitpunktzahl h = new Gleitpunktzahl(0.5);
+
+		System.out.println(g.toString());
+		System.out.println(h.toString());
+		
+
+		//denormalisiere
+		int t = g.exponent - h.exponent;
+		g.exponent = h.exponent;
+		g.mantisse <<= t;
+	
+
+		System.out.println("denormalisiert:");
+		System.out.println(g.toString());
+		System.out.println(h.toString());
+		
+		///Achtung!!!!
+		Gleitpunktzahl a = g.add(h);
+		System.out.println("sum: \n "+a.toString());
+		a.normalisiere();
+		System.out.println("sum: \n "+a.toString());
+		a.normalisiere();
+		System.out.println("sum: \n "+a.toString());
 	}
 	
 	public static void test_Gleitpunktzahl() {
