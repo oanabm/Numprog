@@ -60,6 +60,18 @@ public class TestGleitpunktzahl {
 		Assert.assertEquals(z3, z4);
 	}
 	
+	@Test
+	public void testSub() {
+		Gleitpunktzahl z1 = new Gleitpunktzahl(1.5);
+		Gleitpunktzahl z2 = new Gleitpunktzahl(1.0);
+		
+		Gleitpunktzahl z3 = z1.sub(z2);
+		
+		Gleitpunktzahl z4 = new Gleitpunktzahl(0.5);
+		
+		Assert.assertEquals(z4, z3);
+	}
+	
 	private Gleitpunktzahl testGleitPunktZahl(String name,
 		double zahl, int mantExp, int expExp, boolean vorzExp) {
 		Gleitpunktzahl z = new Gleitpunktzahl(zahl);

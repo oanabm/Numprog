@@ -174,9 +174,6 @@ public class Gleitpunktzahl {
 		 * normalisiere uebernimmt die Aufgaben des Rundens
 		 */
 		normalisiere();
-		
-		System.out.println("Representation dieser Nummer: "
-			+ toString());
 	}
 	
 	/** liefert eine String-Repraesentation des Objekts */
@@ -315,6 +312,14 @@ public class Gleitpunktzahl {
 				mantisse >>= 1;
 			}
 			exponent += sollIstDiff;
+		} else if (sollIstDiff < 0) {
+			if (mantisse == 0) {
+				throw new NumberFormatException(
+					"Mantisse darf nicht 0 sein");
+			} else {
+				mantisse <<= -sollIstDiff;
+				exponent += sollIstDiff;
+			}
 		}
 		
 		//noch ueberpruefen ob exponent in Reichweite. 
