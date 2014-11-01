@@ -2,6 +2,7 @@ package homework_1;
 
 import junit.framework.TestCase;
 
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -28,6 +29,14 @@ public class TestGleitpunktzahl {
 	@Test
 	public void testTooSmallValue() {
 		testGleitPunktZahl("0.4", 0.4, 0b1000, -1, false);
+	}
+	
+	@Test
+	public void testNormalisieren() {
+		Gleitpunktzahl z1 = new Gleitpunktzahl(1.34);
+		Gleitpunktzahl z2 = new Gleitpunktzahl(1.34);
+		z2.normalisiere();
+		Assert.assertEquals(z1, z2);
 	}
 	
 	private Gleitpunktzahl testGleitPunktZahl(String name,
