@@ -39,15 +39,29 @@ public class TestGleitpunktzahl {
 		Assert.assertEquals(z1, z2);
 	}
 	
+	@Test
+	public void testDenormalisieren() {
+		Gleitpunktzahl z1 = new Gleitpunktzahl(1.75);
+		Gleitpunktzahl z2 = new Gleitpunktzahl(3.5);
+		Gleitpunktzahl.denormalisiere(z1, z2);
+		testGleitpunktzahl("3.5 deno", z2, z1.mantisse << 1,
+			z1.exponent - 1, z1.vorzeichen);
+	}
+	
 	private Gleitpunktzahl testGleitPunktZahl(String name,
 		double zahl, int mantExp, int expExp, boolean vorzExp) {
-		Gleitpunktzahl z1 = new Gleitpunktzahl(zahl);
-		TestCase.assertEquals(name + " mantisse", mantExp, z1.mantisse);
+		Gleitpunktzahl z = new Gleitpunktzahl(zahl);
+		testGleitpunktzahl(name, z, mantExp, expExp, vorzExp);
+		return z;
+	}
+	
+	private void testGleitpunktzahl(String name, Gleitpunktzahl z,
+		int mantExp, int expExp, boolean vorzExp) {
+		TestCase.assertEquals(name + " mantisse", mantExp, z.mantisse);
 		TestCase.assertEquals(name + " exponent", expExp + 1,
-			z1.exponent);
+			z.exponent);
 		TestCase.assertEquals(name + " vorzeichen", vorzExp,
-			z1.vorzeichen);
-		return z1;
+			z.vorzeichen);
 	}
 	
 	public void testSpecialValue() {

@@ -344,10 +344,6 @@ public class Gleitpunktzahl {
 	 */
 	public static void denormalisiere(Gleitpunktzahl a,
 		Gleitpunktzahl b) {
-		/*
-		 * TODO: hier ist die Operation denormalisiere zu implementieren.
-		 */
-		
 		int anzPos = 0;
 		
 		if (a.compareAbsTo(b) >= 1) {
