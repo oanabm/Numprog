@@ -174,6 +174,9 @@ public class Gleitpunktzahl {
 		 * normalisiere uebernimmt die Aufgaben des Rundens
 		 */
 		normalisiere();
+		
+		System.out.println("Representation dieser Nummer: "
+			+ toString());
 	}
 	
 	/** liefert eine String-Repraesentation des Objekts */
@@ -286,13 +289,19 @@ public class Gleitpunktzahl {
 	 * Beispiel: Bei 3 Mantissenbits wird die Zahl 10.11 * 2^-1 zu 1.10 * 2^0
 	 */
 	public void normalisiere() {
-		/*
-		 * TODO: hier ist die Operation normalisiere zu implementieren.
-		 * Beachten Sie, dass die Groesse (Anzahl der Bits) des Exponenten
-		 * und der Mantisse durch sizeExponent bzw. sizeMantisse festgelegt
-		 * ist.
-		 * Achten Sie auf Sonderfaelle!
-		 */
+		if (isNull() || isInfinite() || isNaN())
+			return;//nichts zu tun
+			
+		if ((mantisse & 1) == 1) {
+			//letzte Stelle ist 1 -> Aufrunden
+			mantisse >>= 1;//um eine Stelle verschieben
+			mantisse += 1;//uebernimmt aufrunden
+		} else {
+			//letzte Stelle ist 0 -> einfach verschieben
+			mantisse >>= 1;
+		}
+		
+		exponent += 1;//mantisse um eins nach rechts verschoben heiﬂt exponent muss erhoeht werden
 	}
 	
 	/**

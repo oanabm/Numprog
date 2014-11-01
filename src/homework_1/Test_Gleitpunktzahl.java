@@ -51,7 +51,7 @@ public class Test_Gleitpunktzahl {
 			/*************
 			 * Eigene Tests einfuegen
 			 */
-			
+			new Gleitpunktzahl(3.125);
 			System.out.println("\n\nEIGENE TESTS EINFÜGEN!!!!!!!\n\n");
 			
 		} catch (Exception e) {
