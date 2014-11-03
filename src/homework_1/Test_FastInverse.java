@@ -29,7 +29,6 @@ public class Test_FastInverse {
 	 * @param args args is ignored.
 	 */
 	public static void main(String[] args) {
-		
 		Gleitpunktzahl
 			.setSizeExponent(Test_FastInverse.anzBitsExponent);
 		Gleitpunktzahl
