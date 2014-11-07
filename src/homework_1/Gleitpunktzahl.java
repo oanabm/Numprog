@@ -335,7 +335,7 @@ public class Gleitpunktzahl {
 				.pow(2, Gleitpunktzahl.sizeMantisse - 1);
 			return;
 		} else if (exponent >= Gleitpunktzahl.maxExponent) {
-			//exponent ist zu groﬂ
+			//exponent ist zu gro√ü
 			exponent = Gleitpunktzahl.maxExponent - 1;
 			mantisse = (int) Math.pow(2, Gleitpunktzahl.sizeMantisse) - 1;//alle mantissen bits auf 1 sowie fuehrende 1
 			return;
@@ -378,15 +378,22 @@ public class Gleitpunktzahl {
 		 * Funktionen normalisiere und denormalisiere.
 		 * Achten Sie auf Sonderfaelle!
 		 */
-		
+		if (this.isNull()) return new Gleitpunktzahl(r);
+    		if (r.isNull()) return new Gleitpunktzahl(this);
+		 if (this.isInfinite()) return new Gleitpunktzahl(r);
+		 if (r.isInfinite ()) return new Gleitpunktzahl(this);
+    		if (this.isNaN()) return new Gleitpunktzahl(r);
+		 if (r.isNaN ()) return new Gleitpunktzahl(this);
+		 
 		Gleitpunktzahl.denormalisiere(this, r);
 		
 		Gleitpunktzahl result = new Gleitpunktzahl();
 		result.mantisse = mantisse + r.mantisse;
 		result.exponent = r.exponent;
 		result.normalisiere();
-		
 		return result;
+		
+		
 	}
 	
 	/**
@@ -400,7 +407,13 @@ public class Gleitpunktzahl {
 		 * Funktionen normalisiere und denormalisiere.
 		 * Achten Sie auf Sonderfaelle!
 		 */
-		
+		if (this.isNull()) return new Gleitpunktzahl(r);
+    		if (r.isNull()) return new Gleitpunktzahl(this);
+		if (this.isInfinite()) return new Gleitpunktzahl(r);
+		if (r.isInfinite ()) return new Gleitpunktzahl(this);
+    		if (this.isNaN()) return new Gleitpunktzahl(r);
+		if (r.isNaN ()) return new Gleitpunktzahl(this);
+		 
 		Gleitpunktzahl.denormalisiere(this, r);
 		
 		Gleitpunktzahl result = new Gleitpunktzahl();
